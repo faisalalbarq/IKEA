@@ -1,4 +1,6 @@
-﻿using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
+﻿using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
+using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
+using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -67,8 +69,9 @@ namespace LinkDev.IKEA.PresentationLayer
                 */
 
             });
+            builder.Services.AddScoped<IDepartmentRepositry, DepartmentRepositry>();
 
-
+            builder.Services.AddScoped<IDepartmentService , DepartmentService>();
             #endregion
 
            
