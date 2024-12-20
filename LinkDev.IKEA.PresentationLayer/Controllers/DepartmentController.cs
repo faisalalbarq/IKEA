@@ -26,9 +26,13 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             _departmentService = departmentService;
         }
 
+        [HttpGet] //GET: /Department/index (default action is index) 
         public IActionResult Index()
         {
-            return View();
+            var department = _departmentService.GetAllDepartments(); 
+
+
+            return View(department);
         }
     }
 }
