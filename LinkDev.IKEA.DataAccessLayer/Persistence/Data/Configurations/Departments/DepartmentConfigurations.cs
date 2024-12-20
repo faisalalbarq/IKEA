@@ -18,7 +18,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Configrations.Department
             builder.Property(D => D.Name).HasColumnType("varchar(50)").IsRequired();
             builder.Property(D => D.Code).HasColumnType("varchar(20)").IsRequired(); // في نوع اسمه سيكوانس بجينيرات كود بطريقه منظمه انا بختارها
 
-            builder.Property(D => D.CreatedOn).HasDefaultValueSql("GETDATE()");
+            builder.Property(D => D.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
             // HasDefaultValueSql   ==> بتحدد الديفولت فاليو للريكورد اول ما نعمل الريكورد بتوخذ القيمه 
             builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETDATE()");
             // HasComputedColumnSql ==> بتنفذ الكود تبعها بكل مره بعمل فيها تحديث للريكورد 

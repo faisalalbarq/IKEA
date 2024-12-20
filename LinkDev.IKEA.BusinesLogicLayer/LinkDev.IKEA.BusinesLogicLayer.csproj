@@ -10,8 +10,4 @@
     <ProjectReference Include="..\LinkDev.IKEA.DataAccessLayer\LinkDev.IKEA.DataAccessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
