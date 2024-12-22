@@ -84,7 +84,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
                 Code = departmentDto.Code,
                 Name = departmentDto.Name,
                 Description = departmentDto.Description,
-                CreationDate = departmentDto.CreationDate,
+                //CreationDate = departmentDto.CreationDate,
                 CreatedBy = 1,
                 LastModifiedBy = 1,
                 //CreatedOn = DateTime.UtcNow,
