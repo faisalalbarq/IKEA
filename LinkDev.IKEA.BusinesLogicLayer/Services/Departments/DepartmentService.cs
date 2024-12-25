@@ -21,10 +21,10 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
 
 
-        public IEnumerable<DepartmentToReturnDto> GetAllDepartments()
+        public IEnumerable<DepartmentDto> GetAllDepartments()
         {
 
-            var departments = _departmentRepositry.GetAllAsIQueryable().Select(department => new DepartmentToReturnDto()
+            var departments = _departmentRepositry.GetAllAsIQueryable().Select(department => new DepartmentDto()
             {
                 Id = department.Id,
                 Code = department.Code,
@@ -55,12 +55,12 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
         }
 
-        public DepartmentDetailsToReturnDto? GetDepartmentById(int id)
+        public DepartmentDetailsDto? GetDepartmentById(int id)
         {
             var department = _departmentRepositry.Get(id);
 
             if (department is not null) // or is { } new feature .net 8
-                return new DepartmentDetailsToReturnDto()
+                return new DepartmentDetailsDto()
                 {
                     Id = department.Id,
                     Code = department.Code,

@@ -17,9 +17,9 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
         //بعمل كلاس اسمه مودلز او دتوBLL جوه ال 
 
 
-        IEnumerable<DepartmentToReturnDto> GetAllDepartments();// getAll
+        IEnumerable<DepartmentDto> GetAllDepartments();// getAll
 
-        DepartmentDetailsToReturnDto? GetDepartmentById(int id); //getByid
+        DepartmentDetailsDto? GetDepartmentById(int id); //getByid
 
         int CreateDepartment(CreatedDepartmentDto departmentDto);
 

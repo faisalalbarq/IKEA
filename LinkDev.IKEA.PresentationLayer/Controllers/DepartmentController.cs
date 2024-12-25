@@ -1,5 +1,7 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
+using LinkDev.IKEA.DataAccessLayer.Models.Department;
+using LinkDev.IKEA.PresentationLayer.Models.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.IKEA.PresentationLayer.Controllers
@@ -32,13 +34,13 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         {
             _departmentService = departmentService;
             _logger = logger;
-            _environment = environment;  
+            _environment = environment;
         }
 
         [HttpGet] //GET: /Department/index (default action is index) 
         public IActionResult Index()
         {
-            var department = _departmentService.GetAllDepartments(); 
+            var department = _departmentService.GetAllDepartments();
 
 
             return View(department);
@@ -85,19 +87,15 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 if (_environment.IsDevelopment())
                 {
                     msg = ex.Message;
-                    return View(department);    
+                    return View(department);
                 }
                 else
                 {
                     msg = "Department is Not Created";
                     return View("Error", msg);
                 }
-
-
-                throw;
             }
         }
-
 
         [HttpGet] //GET: /Department/Details/id
         public IActionResult Details(int? id)
@@ -113,6 +111,76 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             return View(department);
         }
 
+        [HttpGet] //GET: /Department/Edit/id
+        public IActionResult Edit(int? id)
+        {
+            if (id is null) return BadRequest(); // 400
 
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null)
+                return NotFound(); // 404
+
+            return View(new DepartmentEditViewModel()
+            {
+                Code = department.Code,
+                Name = department.Name,
+                Description = department.Description,
+                CreationDate = department.CreationDate
+            });
+
+
+
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int id,DepartmentEditViewModel departmentVM)
+        {
+            // ModelState: is contain the data that i'm submited and when the model(departmentVM) come to read the his value, valid or invalid now
+            if (!ModelState.IsValid)
+            {
+                return View(departmentVM);
+            }
+
+            var msg = string.Empty;
+            try
+            {
+                var departmentToUpdate = new UpdatedDepartmentDto()
+                {
+                    Id = id,
+                    Code = departmentVM.Code,
+                    Name = departmentVM.Name,
+                    Description = departmentVM.Description,
+                    CreationDate = departmentVM.CreationDate
+                };
+
+
+                var Updated = _departmentService.UpdateDepartment(departmentToUpdate) > 0;
+                if (Updated)
+                {
+                    return RedirectToAction("Index");
+                }
+                msg = "An Error has occured during the updating the department";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                msg = _environment.IsDevelopment() ? ex.Message : "An Error has occured during the updating the department";
+               
+                /// if (_environment.IsDevelopment())
+                /// {
+                ///     msg = ex.Message;
+                ///     return View(department);
+                /// }
+                /// else
+                /// {
+                ///     msg = "An Error has occured during the updating the department";
+                ///     return View("Error", msg);
+                /// }
+            }
+            ModelState.AddModelError(string.Empty, msg);
+            return View(departmentVM);
+        }
     }
 }
