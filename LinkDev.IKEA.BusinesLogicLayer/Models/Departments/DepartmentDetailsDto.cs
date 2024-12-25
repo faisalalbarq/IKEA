@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
 {
-    public class DepartmentDetailsToReturnDto
+    public class DepartmentDetailsDto
     {
 
         public int Id { get; set; }

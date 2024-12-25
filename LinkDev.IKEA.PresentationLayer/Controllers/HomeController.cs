@@ -1,4 +1,4 @@
-﻿using LinkDev.IKEA.PresentationLayer.Models;
+﻿using LinkDev.IKEA.PresentationLayer.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

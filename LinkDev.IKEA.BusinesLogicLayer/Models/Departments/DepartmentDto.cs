@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
 {
-    public class DepartmentToReturnDto
+    public class DepartmentDto
     {
 
 

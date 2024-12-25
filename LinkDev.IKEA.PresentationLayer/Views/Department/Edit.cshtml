@@ -1,17 +1,22 @@
-﻿@model CreatedDepartmentDto
+﻿@model DepartmentEditViewModel
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit"; 
 }
 
 
 <div class="row justify-content-center align-items-center flex-column">
 
 
-    <h1 class="col-6 my-4">Create New Department</h1>
+    <h1 class="col-6 my-4">Edit The Department</h1>
 
 
-    <!-- <form action="/Department/Create" method="post" class="col-8"> -->
-    <form asp-action="Create" class="col-6">
+    <!-- 
+        by default the method = post, because the asp-action = edit, this mean => action = /Department/edit/10
+        how the form know is the id = 10 ? he know from the route url
+
+    -->
+    <form asp-action="Edit" method="post" class="col-6">
         <div asp-validation-summary="ModelOnly"></div> <!--ها رح تظهرلي الايرور الي انا عملتلها سيت باخر سطر بالكرييت اكشن  -->
 
         <div class="form-group mb-3">
@@ -40,8 +45,8 @@
         </div>
 
         <div class="mt-4">
-            <input type="submit" value="Create" class="btn btn-primary" /> |
-            <a asp-action="Index" class="btn btn-light"> Back To List </a>
+            <input type="submit" value="Save" class="btn btn-success" /> |
+            <a asp-action="Index" class="btn btn-light"> Cancel </a>
         </div>
     </form>
 </div>
