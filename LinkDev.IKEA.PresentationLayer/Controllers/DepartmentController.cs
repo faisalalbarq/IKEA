@@ -23,6 +23,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         ///public IDepartmentService DepartmentService { get; } = null!;
 
         //2-
+        #region Services
         private readonly IDepartmentService _departmentService; // مابخليها نلابل عشان بحتاجها , هيك مبدا الكومبوزيشن
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _environment;
@@ -35,8 +36,10 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             _departmentService = departmentService;
             _logger = logger;
             _environment = environment;
-        }
+        } 
+        #endregion
 
+        #region Index
         [HttpGet] //GET: /Department/index (default action is index) 
         public IActionResult Index()
         {
@@ -44,8 +47,10 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
 
             return View(department);
-        }
+        } 
+        #endregion
 
+        #region Create
         [HttpGet]// GET: /Department/Create
         public IActionResult Create()
         {
@@ -95,8 +100,10 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                     return View("Error", msg);
                 }
             }
-        }
+        } 
+        #endregion
 
+        #region Details
         [HttpGet] //GET: /Department/Details/id
         public IActionResult Details(int? id)
         {
@@ -109,8 +116,10 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 return NotFound();
 
             return View(department);
-        }
+        } 
+        #endregion
 
+        #region Update
         [HttpGet] //GET: /Department/Edit/id
         public IActionResult Edit(int? id)
         {
@@ -134,7 +143,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id,DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
         {
             // ModelState: is contain the data that i'm submited and when the model(departmentVM) come to read the his value, valid or invalid now
             if (!ModelState.IsValid)
@@ -167,7 +176,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 _logger.LogError(ex, ex.Message);
 
                 msg = _environment.IsDevelopment() ? ex.Message : "An Error has occured during the updating the department";
-               
+
                 /// if (_environment.IsDevelopment())
                 /// {
                 ///     msg = ex.Message;
@@ -181,6 +190,53 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             }
             ModelState.AddModelError(string.Empty, msg);
             return View(departmentVM);
+        } 
+        #endregion
+
+        #region Delete
+        [HttpGet] //GET: Department/Delete/id
+        public IActionResult Delete(int? id)
+        {
+            // same details
+            if(id is null)
+            {
+                return BadRequest();
+            }
+
+            var department = _departmentService.GetDepartmentById(id.Value);
+
+            if(department is null)
+            {
+                return NotFound(); // helper method
+            }
+            return View(department);
         }
+
+
+        
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var msg = string.Empty;
+
+            try
+            {
+                var deleted = _departmentService.DeleteDepartment(id);
+                if (deleted)
+                    return RedirectToAction("Index");
+
+                msg = "An Error has occured during the deleteing the department";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+
+                msg = _environment.IsDevelopment() ? ex.Message : "An Error has occured during the deleting the department";
+            }
+            //ModelState.AddModelError(string.Empty, msg);
+            return RedirectToAction("Index");
+        } 
+        #endregion
+
     }
 }
