@@ -22,7 +22,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
                 oldDefaultValueSql: "GETDATE()");
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -45,7 +45,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
         }
 
@@ -53,7 +53,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "Employees");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedOn",

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241228184219_EmployeeModuleMigration")]
+    [Migration("20241229151625_EmployeeModuleMigration")]
     partial class EmployeeModuleMigration
     {
         /// <inheritdoc />
@@ -131,7 +131,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 #pragma warning restore 612, 618
         }
