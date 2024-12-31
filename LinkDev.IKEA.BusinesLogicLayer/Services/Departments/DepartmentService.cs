@@ -13,7 +13,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
     public class DepartmentService : IDepartmentService
     {
         private readonly IDepartmentRepository _departmentRepositry;
-
+         
         public DepartmentService(IDepartmentRepository departmentRepositry)
         {
             _departmentRepositry = departmentRepositry;

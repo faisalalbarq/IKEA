@@ -18,9 +18,9 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic
         {
             if (withAsNoTracking)
             {
-                return _dbContext.Set<T>().AsNoTracking().ToList();
+                return _dbContext.Set<T>().Where(X => !X.IsDeleted).AsNoTracking().ToList();
             }
-            return _dbContext.Set<T>().ToList();
+            return _dbContext.Set<T>().Where(X => !X.IsDeleted).ToList();
         }
 
         public IQueryable<T> GetAllAsIQueryable()
@@ -47,7 +47,8 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic
 
         public int Delete(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            _dbContext.Set<T>().Update(entity);
             return _dbContext.SaveChanges();
         }
     }
