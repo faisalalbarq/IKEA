@@ -1,4 +1,5 @@
 ﻿using LinkDev.IKEA.DataAccessLayer.Models.Department;
+using LinkDev.IKEA.DataAccessLayer.Models.Employees;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }
  

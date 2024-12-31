@@ -69,7 +69,7 @@ namespace LinkDev.IKEA.PresentationLayer
                 */
 
             });
-            builder.Services.AddScoped<IDepartmentRepositry, DepartmentRepositry>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
             #endregion

@@ -128,7 +128,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 #pragma warning restore 612, 618
         }
