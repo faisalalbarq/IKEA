@@ -1,4 +1,5 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

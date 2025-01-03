@@ -1,6 +1,8 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
+using LinkDev.IKEA.BusinesLogicLayer.Services.Employees;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Departments;
+using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -70,14 +72,17 @@ namespace LinkDev.IKEA.PresentationLayer
 
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
             #endregion
 
-           
-        
-            
-            
+
+
+
+
             #endregion
 
             var app = builder.Build();

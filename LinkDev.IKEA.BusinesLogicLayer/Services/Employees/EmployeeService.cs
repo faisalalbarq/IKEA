@@ -1,4 +1,4 @@
-﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
+﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
 using LinkDev.IKEA.DataAccessLayer.Models.Employees;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
 using System;
@@ -29,8 +29,8 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 Age = employee.Age,
                 IsActive = employee.IsActive,
                 Email = employee.Email,
-                Gender = nameof(employee.Gender),
-                EmployeeType = nameof(employee.EmployeeType)
+                Gender = employee.Gender.ToString(),
+                EmployeeType = employee.EmployeeType.ToString()
             });
         }
 
