@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
+namespace LinkDev.IKEA.BusinesLogicLayer.Models.Employees
 {
     public class CreatedEmployeeDto
     {
@@ -17,7 +17,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
         [Range(22,30)]
         public int? Age { get; set; }
 
-        [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4-10}-[a-zA-z]{5-10}$", ErrorMessage ="Address must be like 123-Street-City-Country")]
+        // [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4-10}-[a-zA-z]{5-10}$", ErrorMessage ="Address must be like 123-Street-City-Country")]
         public string? Address { get; set; }
 
         public decimal Salary { get; set; }
@@ -36,6 +36,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
         public DateOnly HiringDate { get; set; }
 
         public Gender Gender { get; set; }
+        [Display(Name = "Employee Type")]
         public EmployeeType EmployeeType { get; set; }
 
     }
