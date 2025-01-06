@@ -1,7 +1,7 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.DataAccessLayer.Models.Department;
-using LinkDev.IKEA.PresentationLayer.Models.Departments;
+using LinkDev.IKEA.PresentationLayer.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.IKEA.PresentationLayer.Controllers
@@ -141,7 +141,6 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
         }
 
-
         [HttpPost]
         public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
         {
@@ -212,8 +211,6 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             return View(department);
         }
 
-
-        
         [HttpPost]
         public IActionResult Delete(int id)
         {

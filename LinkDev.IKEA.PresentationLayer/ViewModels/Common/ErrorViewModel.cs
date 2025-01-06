@@ -1,4 +1,4 @@
-namespace LinkDev.IKEA.PresentationLayer.Models.Common
+namespace LinkDev.IKEA.PresentationLayer.ViewModels.Common
 {
     public class ErrorViewModel
     {

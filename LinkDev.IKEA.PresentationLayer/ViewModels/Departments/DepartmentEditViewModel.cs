@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinkDev.IKEA.PresentationLayer.Models.Departments
+namespace LinkDev.IKEA.PresentationLayer.ViewModels.Departments
 {
     public class DepartmentEditViewModel
     {
