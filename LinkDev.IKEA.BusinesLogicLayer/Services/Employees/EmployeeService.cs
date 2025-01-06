@@ -21,7 +21,15 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            return _employeeRepository.GetAllAsIQueryable().Select(employee => new EmployeeDto()
+            // فهذا الكود وين بتنفذ ؟IEnumerable بما اني برجع 
+            // ال وير هاي بتتنفذ تبعت الاي كوارابيل مش الاي نيورابيل لاني بنفذها من خلال اوبجكت من كلاس يامبليمينت الاي كوارابيل
+            //فرح يريجع اينيورابيل لانه الايكورابيل هو ابن الاينيورابيل هذا يعني بان كود الريتيرن لو خزنته بفاريابيل مارح يتنفذ لانه كويري
+            // بس لمه حكيت بدي اعمله ريتيرن كاينيورابيل يعني بدي الدنيا تتزبط وترجعلنا عشان نيوميرات عليها 
+            // فالكويري رح يتنفذ بال سيكوال        
+            return _employeeRepository
+                .GetAllAsIQueryable()
+                .Where(E => !E.IsDeleted)
+                .Select(employee => new EmployeeDto()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -31,7 +39,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 Email = employee.Email,
                 Gender = employee.Gender.ToString(),
                 EmployeeType = employee.EmployeeType.ToString()
-            });
+            }).ToList();
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
@@ -49,8 +57,8 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     Email = employee.Email,
                     PhoneNumber = employee.PhoneNumber,
                     HiringDate = employee.HiringDate,
-                    Gender = nameof(employee.Gender),
-                    EmployeeType = nameof(employee.EmployeeType),
+                    Gender = employee.Gender,
+                    EmployeeType = employee.EmployeeType,
 
                 };
             return null;
