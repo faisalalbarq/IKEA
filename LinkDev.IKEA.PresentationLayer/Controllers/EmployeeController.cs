@@ -26,6 +26,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             return View(employee);
         }
 
+        #region Create
         [HttpGet]
         public IActionResult Create()
         {
@@ -33,6 +34,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedEmployeeDto employee)
         {
             if (!ModelState.IsValid)
@@ -68,24 +70,27 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 }
             }
         }
+        #endregion
 
-
+        #region Details
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            if(id is null)
+            if (id is null)
             {
                 return BadRequest();
             }
             var employee = _employeeService.GetEmployeeById(id.Value);
 
-            if(employee is null)
+            if (employee is null)
             {
                 return NotFound();
             }
-            return View(employee);  
+            return View(employee);
         }
+        #endregion
 
+        #region Update
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -117,13 +122,14 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, EmployeeEditViewModel employeeVM) 
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int id, EmployeeEditViewModel employeeVM)
         {
             if (!ModelState.IsValid)
             {
                 return View(employeeVM);
             }
-            
+
             var msg = string.Empty;
 
             try
@@ -151,18 +157,20 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 }
                 msg = "An Error has occured during the updating The Employee";
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 msg = _environment.IsDevelopment() ? ex.Message : "An Error has occured during the updating The Employee";
             }
 
             ModelState.AddModelError(string.Empty, msg);
-            return View(employeeVM);    
+            return View(employeeVM);
         }
+        #endregion
 
-
+        #region Delete
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var msg = string.Empty;
@@ -183,6 +191,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             }
             return RedirectToAction("Index");
 
-        }
+        } 
+        #endregion
     }
 }

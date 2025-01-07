@@ -58,6 +58,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedDepartmentDto department)
         {
             if (!ModelState.IsValid) // Server-Side-Validation
@@ -142,6 +143,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
         {
             // ModelState: is contain the data that i'm submited and when the model(departmentVM) come to read the his value, valid or invalid now
@@ -212,6 +214,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var msg = string.Empty;

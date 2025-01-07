@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic
 {
-    public class GenericRepository<T> where T : ModelBase
+    public class GenericRepository<T> : IGenericRepository<T> where T : ModelBase
     {
         private readonly ApplicationDbContext _dbContext;
 
