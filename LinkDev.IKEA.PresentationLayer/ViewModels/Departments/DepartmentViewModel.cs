@@ -2,7 +2,7 @@
 
 namespace LinkDev.IKEA.PresentationLayer.ViewModels.Departments
 {
-    public class DepartmentEditViewModel
+    public class DepartmentViewModel
     {
         [Required(ErrorMessage = "The Code is required")]
         public string Code { get; set; } = null!;

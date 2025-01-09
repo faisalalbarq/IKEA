@@ -59,16 +59,24 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedDepartmentDto department)
+        public IActionResult Create(DepartmentViewModel departmentVM)
         {
             if (!ModelState.IsValid) // Server-Side-Validation
-                return View(department);
+                return View(departmentVM);
             // ModelState: هاي اوبجكت ورثناها وبتكون فاليد يعني ترو لمه البيانات الي بالديبارتمنت باراميتر تكون فاليد بالنسبه للكونديشنز الي بال دتو تبعها 
 
             string msg = string.Empty;
             try
             {
-                var result = _departmentService.CreateDepartment(department);// number of records
+                var departmentToCreate = new CreatedDepartmentDto()
+                {
+                    Code = departmentVM.Code,
+                    Name = departmentVM.Name,
+                    Description = departmentVM.Description,
+                    CreationDate = departmentVM.CreationDate
+                };
+
+                var result = _departmentService.CreateDepartment(departmentToCreate);// number of records
 
                 if (result > 0)
                     return RedirectToAction("Index");
@@ -76,7 +84,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 {
                     msg = "Department is Not Created";
                     ModelState.AddModelError(string.Empty, msg);
-                    return View(department);
+                    return View(departmentVM);
                 }
             }
             catch (Exception ex)
@@ -93,7 +101,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 if (_environment.IsDevelopment())
                 {
                     msg = ex.Message;
-                    return View(department);
+                    return View(departmentVM);
                 }
                 else
                 {
@@ -130,7 +138,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             if (department is null)
                 return NotFound(); // 404
 
-            return View(new DepartmentEditViewModel()
+            return View(new DepartmentViewModel()
             {
                 Code = department.Code,
                 Name = department.Name,
@@ -144,7 +152,7 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel departmentVM)
         {
             // ModelState: is contain the data that i'm submited and when the model(departmentVM) come to read the his value, valid or invalid now
             if (!ModelState.IsValid)

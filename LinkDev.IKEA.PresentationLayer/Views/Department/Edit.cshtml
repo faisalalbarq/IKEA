@@ -1,7 +1,8 @@
-﻿@model DepartmentEditViewModel
+﻿@model DepartmentViewModel
 
 @{
-    ViewData["Title"] = "Edit"; 
+    ViewData["Title"] = "Edit";
+    ViewBag.Action = "Edit";
 }
 
 
@@ -11,17 +12,18 @@
     <h1 class="col-6 my-4">Edit The Department</h1>
 
 
-    <!-- 
+    <!-- i am put this code in the Create and Edit partial View 
         by default the method = post, because the asp-action = edit, this mean => action = /Department/edit/10
         how the form know is the id = 10 ? he know from the route url
 
-    -->
+
+
     <form asp-action="Edit" method="post" class="col-6">
-        <div asp-validation-summary="ModelOnly"></div> <!--ها رح تظهرلي الايرور الي انا عملتلها سيت باخر سطر بالكرييت اكشن  -->
+        <div asp-validation-summary="ModelOnly"></div> ها رح تظهرلي الايرور الي انا عملتلها سيت باخر سطر بالكرييت اكشن  
 
         <div class="form-group mb-3">
-            <!-- <label class="form-label" for="Code">Code</label>
-            <input type="text" name="Code" id="Code" class="form-control"/> -->
+            <label class="form-label" for="Code">Code</label>
+            <input type="text" name="Code" id="Code" class="form-control"/> 
 
             <label asp-for="Code" class="form-label"></label>
             <input asp-for="Code" class="form-control" />
@@ -49,11 +51,15 @@
             <a asp-action="Index" class="btn btn-light"> Cancel </a>
         </div>
     </form>
+        -->
+
+
+    <partial name="Partials/_CreateAndEditFormPartial" />
+
 </div>
 
 
 @section ValidationScripts
 {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
 }
