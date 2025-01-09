@@ -19,7 +19,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Models.Departments
 
 
         [Display(Name = "Date of Creation")]
-        public DateOnly CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
     }
 }

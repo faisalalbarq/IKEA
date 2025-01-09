@@ -24,7 +24,10 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
 
-            var departments = _departmentRepositry.GetAllAsIQueryable().Select(department => new DepartmentDto()
+            var departments = _departmentRepositry
+                .GetAllAsIQueryable()
+                .Where(D => !D.IsDeleted)
+                .Select(department => new DepartmentDto()
             {
                 Id = department.Id,
                 Code = department.Code,
