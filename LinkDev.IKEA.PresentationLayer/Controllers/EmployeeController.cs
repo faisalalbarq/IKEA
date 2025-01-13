@@ -1,4 +1,5 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
+using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Employees;
 using LinkDev.IKEA.PresentationLayer.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +9,17 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        // private readonly IDepartmentService _departmentService;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IWebHostEnvironment _environment;
 
-        public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger, IWebHostEnvironment environment)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            ILogger<EmployeeController> logger,
+            IWebHostEnvironment environment)
         {
             _employeeService = employeeService;
+            // _departmentService = departmentService;
             _logger = logger;
             _environment = environment;
         }
@@ -28,8 +34,11 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
         #region Create
         [HttpGet]
+
+        // [FromServices] IDepartmentService departmentService
         public IActionResult Create()
         {
+            // ViewData["Departments"] = departmentService.GetAllDepartments();
             return View();
         }
 

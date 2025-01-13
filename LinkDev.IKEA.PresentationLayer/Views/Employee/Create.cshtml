@@ -1,7 +1,9 @@
-﻿@using LinkDev.IKEA.DataAccessLayer.Common.Enums
+﻿@inject IDepartmentService departmentService;
+
 @model CreatedEmployeeDto
 @{
     ViewData["Title"] = "Create";
+    var Departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 }
 
 <h1>Create</h1>
@@ -59,7 +61,15 @@
                 </div>
             }
         </div>
+        <div class="form-check col-6 ">
+            <label asp-for="DepartmentId" class="control-lable mb-2"></label>
+            <select asp-for="DepartmentId" asp-items="@Departments" class="form-control">
 
+                <!--asp-items ==> هاي بتوخذ الايتمز وبترسملي الاوبشنز-->
+                <option value="@null">Choose...</option>
+
+            </select>
+        </div>
         <div class="form-check col-6 ">
             <label asp-for="EmployeeType" class="control-lable mb-2"></label>
             <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">

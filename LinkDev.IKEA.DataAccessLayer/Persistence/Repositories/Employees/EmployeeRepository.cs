@@ -1,4 +1,4 @@
-﻿using LinkDev.IKEA.DataAccessLayer.Models.Employees;
+﻿using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic;
 using Microsoft.EntityFrameworkCore;

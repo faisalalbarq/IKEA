@@ -59,7 +59,9 @@ namespace LinkDev.IKEA.PresentationLayer
                 // or
 
 
-                OptionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                OptionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                
                 
                 /*

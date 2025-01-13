@@ -1,12 +1,6 @@
 ﻿using LinkDev.IKEA.DataAccessLayer.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LinkDev.IKEA.DataAccessLayer.Models.Employees
+namespace LinkDev.IKEA.DataAccessLayer.Models
 {
     public class Employee : ModelBase
     {
@@ -40,5 +34,9 @@ namespace LinkDev.IKEA.DataAccessLayer.Models.Employees
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+        // Fully qualify the Department type to avoid ambiguity
+        public virtual Department? Department { get; set; }
     }
 }

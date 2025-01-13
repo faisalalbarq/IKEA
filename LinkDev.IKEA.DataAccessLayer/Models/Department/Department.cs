@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.IKEA.DataAccessLayer.Models.Department
+﻿namespace LinkDev.IKEA.DataAccessLayer.Models
 {
     public class Department : ModelBase
     {
@@ -17,5 +10,9 @@ namespace LinkDev.IKEA.DataAccessLayer.Models.Department
         public string? Description { get; set; }
 
         public DateTime CreationDate { get; set; } // الوقت الي انعمل فيه قسم معين بالشركه 
+
+        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+
+
     }
 }
