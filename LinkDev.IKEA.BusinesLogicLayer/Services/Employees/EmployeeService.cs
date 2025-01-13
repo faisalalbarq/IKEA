@@ -1,11 +1,7 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
-using LinkDev.IKEA.DataAccessLayer.Models.Employees;
+using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
 {
@@ -29,17 +25,19 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
             return _employeeRepository
                 .GetAllAsIQueryable()
                 .Where(E => !E.IsDeleted)
+                .Include(E => E.Department)
                 .Select(employee => new EmployeeDto()
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Salary = employee.Salary,
-                Age = employee.Age,
-                IsActive = employee.IsActive,
-                Email = employee.Email,
-                Gender = employee.Gender.ToString(),
-                EmployeeType = employee.EmployeeType.ToString()
-            }).ToList();
+                {
+                    Id = employee.Id,
+                    Name = employee.Name,
+                    Salary = employee.Salary,
+                    Age = employee.Age,
+                    IsActive = employee.IsActive,
+                    Email = employee.Email,
+                    Gender = employee.Gender.ToString(),
+                    EmployeeType = employee.EmployeeType.ToString(),
+                    Department = employee.Department.Name
+                }).ToList();
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
@@ -59,7 +57,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
                     EmployeeType = employee.EmployeeType,
-
+                    Department = employee.Department.Name
                 };
             return null;
         }
@@ -79,6 +77,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 HiringDate = employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
+                DepartmentId = employeeDto.DepartmentId,
                 LastModifiedBy = 1,
                 CreatedBy = 1,
                 LastModifiedOn = DateTime.UtcNow
@@ -102,6 +101,8 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 HiringDate = employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
+                DepartmentId = employeeDto.DepartmentId,
+
                 LastModifiedBy = 1,
                 CreatedBy = 1,
                 LastModifiedOn = DateTime.UtcNow

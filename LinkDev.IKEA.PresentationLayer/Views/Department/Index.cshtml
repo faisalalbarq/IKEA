@@ -4,11 +4,17 @@
 
 }
 
+@if (!string.IsNullOrEmpty(TempData["message"] as string))
+{
+    <div class="alert alert-success">
+        @TempData["message"]
+    </div>
+}
 <h1>Departments</h1>
 <br />
 <br />
 
-<a asp-controller ="Department" asp-action="Create" class="btn btn-primary">Create New Department</a>
+<a asp-controller="Department" asp-action="Create" class="btn btn-primary">Create New Department</a>
 
 <br />
 <br />
@@ -31,7 +37,7 @@
         </thead>
 
         <tbody class="text-center">
-            @foreach(var department in Model)
+            @foreach (var department in Model)
             {
                 <tr>
                     <td> @department.Code </td>
@@ -50,10 +56,10 @@
                         </a>
                     </td>
                     <td>
-                       @* <a asp-controller="Department" asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger">
-                            <i class="fas fa-trash"></i> Delete
-                          </a>
-                       *@
+                    @* <a asp-controller="Department" asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete
+                  </a>
+               *@
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class="fas fa-trash"></i> Delete
                         </button>
@@ -92,7 +98,7 @@ else
 {
     <div class="alert alert-info mt-3">
         <h3>
-            There are no Departments :( 
+            There are no Departments :(
         </h3>
     </div>
 }

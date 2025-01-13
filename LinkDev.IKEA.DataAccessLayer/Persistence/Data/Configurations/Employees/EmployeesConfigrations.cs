@@ -1,5 +1,5 @@
 ﻿using LinkDev.IKEA.DataAccessLayer.Common.Enums;
-using LinkDev.IKEA.DataAccessLayer.Models.Employees;
+using LinkDev.IKEA.DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

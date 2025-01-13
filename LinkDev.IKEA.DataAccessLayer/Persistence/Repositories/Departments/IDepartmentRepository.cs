@@ -1,4 +1,4 @@
-﻿using LinkDev.IKEA.DataAccessLayer.Models.Department;
+﻿using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic;
 using System;
 using System.Collections.Generic;

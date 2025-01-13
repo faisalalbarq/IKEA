@@ -1,6 +1,6 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
-using LinkDev.IKEA.DataAccessLayer.Models.Department;
+using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.PresentationLayer.ViewModels.Departments;
 using Microsoft.AspNetCore.Mvc;
 

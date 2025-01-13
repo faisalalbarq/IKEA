@@ -1,5 +1,5 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
-using LinkDev.IKEA.DataAccessLayer.Models.Department;
+using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 using System;
