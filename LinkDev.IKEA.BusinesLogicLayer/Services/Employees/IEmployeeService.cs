@@ -5,7 +5,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
     public interface IEmployeeService
     {
 
-        IEnumerable<EmployeeDto> GetAllEmployees();// getAll
+        IEnumerable<EmployeeDto> GetEmployees(string search);// getAll
 
         EmployeeDetailsDto? GetEmployeeById(int id); //getByid
 

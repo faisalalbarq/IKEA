@@ -1,22 +1,18 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
 using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Departments;
+using LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepositry;
-         
-        public DepartmentService(IDepartmentRepository departmentRepositry)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public DepartmentService(IUnitOfWork unitOfWork)
         {
-            _departmentRepositry = departmentRepositry;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -24,7 +20,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
 
-            var departments = _departmentRepositry
+            var departments = _unitOfWork.departmentRepository
                 .GetAllAsIQueryable()
                 .Where(D => !D.IsDeleted)
                 .Select(department => new DepartmentDto()
@@ -60,7 +56,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
         public DepartmentDetailsDto? GetDepartmentById(int id)
         {
-            var department = _departmentRepositry.Get(id);
+            var department = _unitOfWork.departmentRepository.Get(id);
 
             if (department is not null) // or is { } new feature .net 8
                 return new DepartmentDetailsDto()
@@ -94,7 +90,8 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
 
             };
-            return _departmentRepositry.Add(department);
+            _unitOfWork.departmentRepository.Add(department);
+            return _unitOfWork.complete();
         }
 
         public int UpdateDepartment(UpdatedDepartmentDto departmentDto)
@@ -112,18 +109,19 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
             };
 
 
-            return _departmentRepositry.Update(department);
-
+            _unitOfWork.departmentRepository.Update(department);
+            return _unitOfWork.complete();
         }
 
         public bool DeleteDepartment(int id)
         {
-            var department = _departmentRepositry.Get(id);
+            var departmentRepository = _unitOfWork.departmentRepository;
+            var department = departmentRepository.Get(id);
 
             if(department is { }) // if exist i will deleting 
-                return _departmentRepositry.Delete(department) > 0;
+                departmentRepository.Delete(department);
 
-            return false;
+            return _unitOfWork.complete() > 0;
         }
 
 

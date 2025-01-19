@@ -1,10 +1,10 @@
-﻿using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
+﻿using LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments;
+using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Employees;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
-using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Departments;
-using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
+using LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork;
+using LinkDev.IKEA.PresentationLayer.Mappring;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace LinkDev.IKEA.PresentationLayer
 {
@@ -73,12 +73,18 @@ namespace LinkDev.IKEA.PresentationLayer
                 */
 
             });
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            // Allow the dependency injection
+            // builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            // builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddTransient<IAttachmentService, AttachmentService>();
 
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));//اوبجكت منه فييجيني واستخدمه ولكن هذا الاوبجكت لازم يكون عارف كيف يحول من كذا ل كذا فلازم اعمله بروفايل  clr عشان لمه اطلب من ال 
+            //AddAutoMapper => الباراميتر هو انه مستني مني انه المابر اوبجكت الي هو رح يعمله محتاج اضيف جواته بروفايلز عشان يعرف يشتغل
+            // فهو رح ينفذ الكونستركتور الي بكلاس المابنق بروفايل
             #endregion
 
 

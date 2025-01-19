@@ -38,5 +38,7 @@ namespace LinkDev.IKEA.DataAccessLayer.Models
 
         // Fully qualify the Department type to avoid ambiguity
         public virtual Department? Department { get; set; }
+
+        public string? Image { get; set; }
     }
 }

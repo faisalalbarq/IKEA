@@ -1,5 +1,4 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
-using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Employees;
 using LinkDev.IKEA.PresentationLayer.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +25,9 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
-            var employee = _employeeService.GetAllEmployees();
+            var employee = _employeeService.GetEmployees(search);
             return View(employee);
         }
 
