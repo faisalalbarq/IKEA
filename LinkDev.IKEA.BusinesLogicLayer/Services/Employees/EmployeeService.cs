@@ -1,7 +1,6 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments;
 using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
 using LinkDev.IKEA.DataAccessLayer.Models;
-using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
 using LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,8 +40,9 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     Email = employee.Email,
                     Gender = employee.Gender.ToString(),
                     EmployeeType = employee.EmployeeType.ToString(),
-                    Department = employee.Department.Name
-                    
+                    Department = employee.Department != null ? employee.Department.Name : "No Department"
+
+
                 }).ToList();
         }
 
@@ -63,7 +63,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
                     EmployeeType = employee.EmployeeType,
-                    Department = employee.Department.Name,
+                    Department = employee.Department?.Name ?? "Unknown",
                     Image = employee.Image
                 };
 
