@@ -1,4 +1,5 @@
-﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
+﻿using AutoMapper;
+using LinkDev.IKEA.BusinesLogicLayer.Models.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.PresentationLayer.ViewModels.Departments;
@@ -25,15 +26,18 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
         //2-
         #region Services
         private readonly IDepartmentService _departmentService; // مابخليها نلابل عشان بحتاجها , هيك مبدا الكومبوزيشن
+        private readonly IMapper _mapper;
         private readonly ILogger<DepartmentController> _logger;
         private readonly IWebHostEnvironment _environment;
 
         public DepartmentController(
             IDepartmentService departmentService,
-            ILogger<DepartmentController> logger,
+            IMapper mapper,
+            ILogger<DepartmentController> logger,  
             IWebHostEnvironment environment) //([FromService]IDepa...) الديفوت انه مكتوب 
         {
             _departmentService = departmentService;
+            _mapper = mapper;
             _logger = logger;
             _environment = environment;
         } 
@@ -68,21 +72,22 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             string msg = string.Empty;
             try
             {
-                var departmentToCreate = new CreatedDepartmentDto()
-                {
-                    Code = departmentVM.Code,
-                    Name = departmentVM.Name,
-                    Description = departmentVM.Description,
-                    CreationDate = departmentVM.CreationDate
-                };
+                var departmentToCreate = _mapper.Map<CreatedDepartmentDto>(departmentVM);
+                /// var departmentToCreate = new CreatedDepartmentDto()
+                /// {
+                ///     Code = departmentVM.Code,
+                ///     Name = departmentVM.Name,
+                ///     Description = departmentVM.Description,
+                ///     CreationDate = departmentVM.CreationDate
+                /// };
 
-                var result = _departmentService.CreateDepartment(departmentToCreate);// number of records
 
-                if (result > 0)
-                    return RedirectToAction("Index");
-                else
-                {
+                var created = _departmentService.CreateDepartment(departmentToCreate) > 0;// number of records
+
+                if (!created)
+                { 
                     msg = "Department is Not Created";
+
                     ModelState.AddModelError(string.Empty, msg);
                     return View(departmentVM);
                 }
@@ -97,18 +102,11 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
                 //if i'm in development Environment i need the technical message 
                 //if i'm in production  Environment i will sent the friendly msg
                 //Checking Environments: i need obj from class that implement IWebHostEnvironment
-
-                if (_environment.IsDevelopment())
-                {
-                    msg = ex.Message;
-                    return View(departmentVM);
-                }
-                else
-                {
-                    msg = "Department is Not Created";
-                    return View("Error", msg);
-                }
+                msg = _environment.IsDevelopment() ? ex.Message : "Department is Not Created";
+                TempData["message"] = msg;
+                return RedirectToAction("Index");
             }
+            return Redirect("Index");
         } 
         #endregion
 
@@ -138,13 +136,11 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             if (department is null)
                 return NotFound(); // 404
 
-            return View(new DepartmentViewModel()
-            {
-                Code = department.Code,
-                Name = department.Name,
-                Description = department.Description,
-                CreationDate = department.CreationDate
-            });
+
+            // DepartmentViewModel =>مابدي اياها بال ايديت فيو فعملت هذا الفيو عشان يمثل شكل الديبارتمنت بالايديت ولكرييت فيو   DepartmentDetailsDto في بعض البروبيرتيس بال 
+            var departmentVM = _mapper.Map<DepartmentDetailsDto, DepartmentViewModel>(department);
+
+            return View(departmentVM);
 
 
 
@@ -163,15 +159,15 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
             var msg = string.Empty;
             try
             {
-                var departmentToUpdate = new UpdatedDepartmentDto()
-                {
-                    Id = id,
-                    Code = departmentVM.Code,
-                    Name = departmentVM.Name,
-                    Description = departmentVM.Description,
-                    CreationDate = departmentVM.CreationDate
-                };
-
+                /// var departmentToUpdate = new UpdatedDepartmentDto()
+                /// {
+                ///     Id = id,
+                ///     Code = departmentVM.Code,
+                ///     Name = departmentVM.Name,
+                ///     Description = departmentVM.Description,
+                ///     CreationDate = departmentVM.CreationDate
+                /// };
+                var departmentToUpdate = _mapper.Map<UpdatedDepartmentDto>(departmentVM);
 
                 var Updated = _departmentService.UpdateDepartment(departmentToUpdate) > 0;
                 if (Updated)

@@ -33,23 +33,15 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic
             return _dbContext.Set<T>().Find(id);
         }
 
-        public int Add(T entity)
-        {
-            _dbContext.Set<T>().Add(entity);
-            return _dbContext.SaveChanges();
-        }
+        public void Add(T entity) => _dbContext.Set<T>().Add(entity);
 
-        public int Update(T entity)
-        {
-            _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
-        }
 
-        public int Delete(T entity)
+        public void Update(T entity) => _dbContext.Set<T>().Update(entity);
+
+        public void Delete(T entity)
         {
             entity.IsDeleted = true;
             _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
         }
     }
 }

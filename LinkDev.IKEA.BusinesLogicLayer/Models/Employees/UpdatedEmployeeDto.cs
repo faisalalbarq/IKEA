@@ -41,5 +41,8 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Models.Employees
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+
+        public string? Image { get; set; }
+
     }
 }

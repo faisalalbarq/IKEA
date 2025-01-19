@@ -1,30 +1,35 @@
-﻿using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
+﻿using LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments;
+using LinkDev.IKEA.BusinesLogicLayer.Models.Employees;
 using LinkDev.IKEA.DataAccessLayer.Models;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Repositories.Employees;
+using LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAttachmentService _attachmentService;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IUnitOfWork unitOfWork, IAttachmentService AttachmentService)
         {
-            _employeeRepository = employeeRepository;
+            _unitOfWork = unitOfWork;
+            _attachmentService = AttachmentService;
         }
 
 
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        public IEnumerable<EmployeeDto> GetEmployees(string search)
         {
             // فهذا الكود وين بتنفذ ؟IEnumerable بما اني برجع 
             // ال وير هاي بتتنفذ تبعت الاي كوارابيل مش الاي نيورابيل لاني بنفذها من خلال اوبجكت من كلاس يامبليمينت الاي كوارابيل
             //فرح يريجع اينيورابيل لانه الايكورابيل هو ابن الاينيورابيل هذا يعني بان كود الريتيرن لو خزنته بفاريابيل مارح يتنفذ لانه كويري
             // بس لمه حكيت بدي اعمله ريتيرن كاينيورابيل يعني بدي الدنيا تتزبط وترجعلنا عشان نيوميرات عليها 
             // فالكويري رح يتنفذ بال سيكوال        
-            return _employeeRepository
+            return _unitOfWork.employeeRepository
                 .GetAllAsIQueryable()
-                .Where(E => !E.IsDeleted)
+                .Where(E => !E.IsDeleted && (string.IsNullOrEmpty(search) || E.Name.ToLower().Contains(search.ToLower())))
+                // The contains not ignor the caseSensetive
                 .Include(E => E.Department)
                 .Select(employee => new EmployeeDto()
                 {
@@ -37,12 +42,13 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     Gender = employee.Gender.ToString(),
                     EmployeeType = employee.EmployeeType.ToString(),
                     Department = employee.Department.Name
+                    
                 }).ToList();
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
-            var employee = _employeeRepository.Get(id);
+            var employee = _unitOfWork.employeeRepository.Get(id);
             if (employee is { })
                 return new EmployeeDetailsDto()
                 {
@@ -57,8 +63,10 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     HiringDate = employee.HiringDate,
                     Gender = employee.Gender,
                     EmployeeType = employee.EmployeeType,
-                    Department = employee.Department.Name
+                    Department = employee.Department.Name,
+                    Image = employee.Image
                 };
+
             return null;
         }
 
@@ -78,12 +86,20 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
                 DepartmentId = employeeDto.DepartmentId,
+                /*Image = employeeDto.Image,*/
                 LastModifiedBy = 1,
                 CreatedBy = 1,
                 LastModifiedOn = DateTime.UtcNow
             };
 
-            return _employeeRepository.Add(employee);
+            if(employeeDto.Image is not null)
+            {
+                employee.Image = _attachmentService.Upload(employeeDto.Image, "Images");
+            }
+
+
+            _unitOfWork.employeeRepository.Add(employee);
+            return _unitOfWork.complete();
         }
 
         public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
@@ -108,17 +124,22 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                 LastModifiedOn = DateTime.UtcNow
             };
 
-            return _employeeRepository.Update(employee);
+            _unitOfWork.employeeRepository.Update(employee);
+            return _unitOfWork.complete();  
         }
 
         public bool DeleteEmployee(int id)
         {
-            var employee = _employeeRepository.Get(id);
+            // i want the employeeRepository 2 times
+            var employeeRepository = _unitOfWork.employeeRepository;
+
+            var employee = employeeRepository.Get(id);
             if (employee is { })
             {
-                return _employeeRepository.Delete(employee) > 0;
+                // return _employeeRepository.Delete(employee) > 0;
+                employeeRepository.Delete(employee);
             }
-            return false;
+            return _unitOfWork.complete() > 0;
         }
 
 
