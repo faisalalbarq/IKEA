@@ -5,14 +5,14 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
     public interface IEmployeeService
     {
 
-        IEnumerable<EmployeeDto> GetEmployees(string search);// getAll
+        Task <IEnumerable<EmployeeDto>> GetEmployeesAsync(string search);// getAll
 
-        EmployeeDetailsDto? GetEmployeeById(int id); //getByid
+        Task <EmployeeDetailsDto?> GetEmployeeByIdAsync(int id); //getByid
 
-        int CreateEmployee(CreatedEmployeeDto employeeDto);
+        Task <int> CreateEmployeeAsync(CreatedEmployeeDto employeeDto);
 
-        int UpdateEmployee(UpdatedEmployeeDto employeeDto);
+        Task <int> UpdateEmployeeAsync(UpdatedEmployeeDto employeeDto);
 
-        bool DeleteEmployee(int id);
+        Task <bool> DeleteEmployeeAsync(int id);
     }
 }

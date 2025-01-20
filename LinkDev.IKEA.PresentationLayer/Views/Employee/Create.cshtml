@@ -3,7 +3,7 @@
 @model CreatedEmployeeDto
 @{
     ViewData["Title"] = "Create";
-    var Departments = new SelectList(departmentService.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+    var Departments = new SelectList(await departmentService.GetAllDepartmentsAsync(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
 }
 
 <h1>Create</h1>
@@ -103,8 +103,10 @@
             <a asp-controller="Employee" asp-action="Index" class="btn btn-light">
                 Back To List
             </a>
-
+        </div>
     </form>
+
+
 </div>
 
 @section ValidationScripts

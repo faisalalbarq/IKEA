@@ -17,10 +17,10 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
 
 
-        public IEnumerable<DepartmentDto> GetAllDepartments()
+        public async Task <IEnumerable<DepartmentDto>> GetAllDepartmentsAsync()
         {
 
-            var departments = _unitOfWork.departmentRepository
+            var departments = await _unitOfWork.departmentRepository
                 .GetAllAsIQueryable()
                 .Where(D => !D.IsDeleted)
                 .Select(department => new DepartmentDto()
@@ -29,7 +29,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
                 Code = department.Code,
                 Name = department.Name,
                 CreationDate = department.CreationDate
-            }).AsNoTracking().ToList();
+            }).AsNoTracking().ToListAsync();
 
             return departments;
 
@@ -54,9 +54,9 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
         }
 
-        public DepartmentDetailsDto? GetDepartmentById(int id)
+        public async Task <DepartmentDetailsDto?> GetDepartmentByIdAsync(int id)
         {
-            var department = _unitOfWork.departmentRepository.Get(id);
+            var department = await _unitOfWork.departmentRepository.GetAsync(id);
 
             if (department is not null) // or is { } new feature .net 8
                 return new DepartmentDetailsDto()
@@ -75,7 +75,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
         }
 
 
-        public int CreateDepartment(CreatedDepartmentDto departmentDto)
+        public async Task <int> CreateDepartmentAsync(CreatedDepartmentDto departmentDto)
         {
             // manual mapping
             var department = new Department()
@@ -90,11 +90,13 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
                 LastModifiedOn = DateTime.UtcNow,
 
             };
+
+
             _unitOfWork.departmentRepository.Add(department);
-            return _unitOfWork.complete();
+            return await _unitOfWork.completeAsync();
         }
 
-        public int UpdateDepartment(UpdatedDepartmentDto departmentDto)
+        public async Task<int> UpdateDepartmentAsync(UpdatedDepartmentDto departmentDto)
         {
             var department = new Department()
             {
@@ -110,18 +112,18 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
 
 
             _unitOfWork.departmentRepository.Update(department);
-            return _unitOfWork.complete();
+            return await _unitOfWork.completeAsync();
         }
 
-        public bool DeleteDepartment(int id)
+        public async Task <bool> DeleteDepartmentAsync(int id)
         {
             var departmentRepository = _unitOfWork.departmentRepository;
-            var department = departmentRepository.Get(id);
+            var department = await departmentRepository.GetAsync(id);
 
             if(department is { }) // if exist i will deleting 
                 departmentRepository.Delete(department);
 
-            return _unitOfWork.complete() > 0;
+            return await _unitOfWork.completeAsync() > 0;
         }
 
 

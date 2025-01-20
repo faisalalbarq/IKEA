@@ -9,12 +9,12 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Repositories._Genegic
 {
     public interface IGenericRepository<T> where T : ModelBase
     {
-        IEnumerable<T> GetAll(bool withAsNoTracking = true);
+        Task<IEnumerable<T>> GetAllAsync(bool withAsNoTracking = true);
+        Task<T?> GetAsync(int id);
+
         IQueryable<T> GetAllAsIQueryable();
 
 
-
-        T? Get(int id);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

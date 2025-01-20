@@ -18,14 +18,14 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Departments
         //بعمل كلاس اسمه مودلز او دتوBLL جوه ال 
 
 
-        IEnumerable<DepartmentDto> GetAllDepartments();// getAll
+        Task <IEnumerable<DepartmentDto>> GetAllDepartmentsAsync();// getAll
 
-        DepartmentDetailsDto? GetDepartmentById(int id); //getByid
+        Task <DepartmentDetailsDto?> GetDepartmentByIdAsync(int id); //getByid
 
-        int CreateDepartment(CreatedDepartmentDto departmentDto);
+        Task <int> CreateDepartmentAsync(CreatedDepartmentDto departmentDto);
 
-        int UpdateDepartment(UpdatedDepartmentDto departmentDto);
+        Task <int> UpdateDepartmentAsync(UpdatedDepartmentDto departmentDto);
 
-        bool DeleteDepartment(int id);
+        Task <bool> DeleteDepartmentAsync(int id);
     }
 }
