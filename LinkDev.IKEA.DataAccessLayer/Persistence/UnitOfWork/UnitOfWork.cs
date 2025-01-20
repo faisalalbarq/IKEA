@@ -20,13 +20,13 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork
         {
             _dbContext = dbContext;
         }
-        public int complete()
+        public async Task<int> completeAsync()
         {
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            _dbContext.Dispose();
+           await _dbContext.DisposeAsync();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments
          * 1 gigaByte = 1024 * 1024 * 1024
          */
 
-        public string? Upload(IFormFile file, string folderName)
+        public async Task<string?> UploadAsync(IFormFile file, string folderName)
         {
             var extension = Path.GetExtension(file.FileName);// when i send hamada.jpg, the GetExtension give me the .jpg
             // file.Name ==> extension Name 
@@ -63,10 +63,12 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments
             /// }  
 
 
-            file.CopyTo(fileStream);// uploading the file data per time, that's mean the file i will put in the stream because go to the filePath, why? to make the Create
+            await file.CopyToAsync(fileStream);// uploading the file data per time, that's mean the file i will put in the stream because go to the filePath, why? to make the Create
 
             return fileName; // i will return the fileName becaue the filePath is repeated
         }
+
+
         public bool Delete(string filePath)
         {
             if (File.Exists(filePath))

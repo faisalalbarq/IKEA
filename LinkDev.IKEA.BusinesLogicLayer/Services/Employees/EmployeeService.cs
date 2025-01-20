@@ -18,14 +18,14 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
         }
 
 
-        public IEnumerable<EmployeeDto> GetEmployees(string search)
+        public async Task <IEnumerable<EmployeeDto>> GetEmployeesAsync(string search)
         {
             // فهذا الكود وين بتنفذ ؟IEnumerable بما اني برجع 
             // ال وير هاي بتتنفذ تبعت الاي كوارابيل مش الاي نيورابيل لاني بنفذها من خلال اوبجكت من كلاس يامبليمينت الاي كوارابيل
             //فرح يريجع اينيورابيل لانه الايكورابيل هو ابن الاينيورابيل هذا يعني بان كود الريتيرن لو خزنته بفاريابيل مارح يتنفذ لانه كويري
             // بس لمه حكيت بدي اعمله ريتيرن كاينيورابيل يعني بدي الدنيا تتزبط وترجعلنا عشان نيوميرات عليها 
             // فالكويري رح يتنفذ بال سيكوال        
-            return _unitOfWork.employeeRepository
+            return await _unitOfWork.employeeRepository
                 .GetAllAsIQueryable()
                 .Where(E => !E.IsDeleted && (string.IsNullOrEmpty(search) || E.Name.ToLower().Contains(search.ToLower())))
                 // The contains not ignor the caseSensetive
@@ -43,12 +43,12 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
                     Department = employee.Department != null ? employee.Department.Name : "No Department"
 
 
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public EmployeeDetailsDto? GetEmployeeById(int id)
+        public async Task <EmployeeDetailsDto?> GetEmployeeByIdAsync(int id)
         {
-            var employee = _unitOfWork.employeeRepository.Get(id);
+            var employee = await _unitOfWork.employeeRepository.GetAsync(id);
             if (employee is { })
                 return new EmployeeDetailsDto()
                 {
@@ -71,7 +71,7 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
         }
 
 
-        public int CreateEmployee(CreatedEmployeeDto employeeDto)
+        public async Task<int> CreateEmployeeAsync(CreatedEmployeeDto employeeDto)
         {
             var employee = new Employee()
             {
@@ -94,15 +94,15 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
 
             if(employeeDto.Image is not null)
             {
-                employee.Image = _attachmentService.Upload(employeeDto.Image, "Images");
+                employee.Image = await _attachmentService.UploadAsync(employeeDto.Image, "Images");
             }
 
 
             _unitOfWork.employeeRepository.Add(employee);
-            return _unitOfWork.complete();
+            return await _unitOfWork.completeAsync();
         }
 
-        public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
+        public async Task<int> UpdateEmployeeAsync(UpdatedEmployeeDto employeeDto)
         {
             var employee = new Employee()
             {
@@ -125,24 +125,22 @@ namespace LinkDev.IKEA.BusinesLogicLayer.Services.Employees
             };
 
             _unitOfWork.employeeRepository.Update(employee);
-            return _unitOfWork.complete();  
+            return await _unitOfWork.completeAsync();  
         }
 
-        public bool DeleteEmployee(int id)
+        public async Task<bool> DeleteEmployeeAsync(int id)
         {
             // i want the employeeRepository 2 times
             var employeeRepository = _unitOfWork.employeeRepository;
 
-            var employee = employeeRepository.Get(id);
+            var employee = await employeeRepository.GetAsync(id);
             if (employee is { })
             {
                 // return _employeeRepository.Delete(employee) > 0;
                 employeeRepository.Delete(employee);
             }
-            return _unitOfWork.complete() > 0;
+            return await _unitOfWork.completeAsync() > 0;
         }
-
-
 
 
     }
