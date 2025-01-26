@@ -1,10 +1,12 @@
 ﻿using LinkDev.IKEA.DataAccessLayer.Models;
+using LinkDev.IKEA.DataAccessLayer.Models.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         //ctor
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -49,6 +51,9 @@ namespace LinkDev.IKEA.DataAccessLayer.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+
             /*
               base.OnModelCreating(modelBuilder);
               فبالتالي مافي اي مودل فبالتالي مافي اي فلوونت ابأي مكتوبه DbSet ماعنده كود لانه ماعنده DbContext  مابعمل للاب كول عشان ال  

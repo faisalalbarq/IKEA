@@ -1,9 +1,11 @@
 ﻿using LinkDev.IKEA.BusinesLogicLayer.Common.Services.Attachments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Departments;
 using LinkDev.IKEA.BusinesLogicLayer.Services.Employees;
+using LinkDev.IKEA.DataAccessLayer.Models.Identity;
 using LinkDev.IKEA.DataAccessLayer.Persistence.Data;
 using LinkDev.IKEA.DataAccessLayer.Persistence.UnitOfWork;
 using LinkDev.IKEA.PresentationLayer.Mappring;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LinkDev.IKEA.PresentationLayer
@@ -85,15 +87,50 @@ namespace LinkDev.IKEA.PresentationLayer
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));//اوبجكت منه فييجيني واستخدمه ولكن هذا الاوبجكت لازم يكون عارف كيف يحول من كذا ل كذا فلازم اعمله بروفايل  clr عشان لمه اطلب من ال 
             //AddAutoMapper => الباراميتر هو انه مستني مني انه المابر اوبجكت الي هو رح يعمله محتاج اضيف جواته بروفايلز عشان يعرف يشتغل
             // فهو رح ينفذ الكونستركتور الي بكلاس المابنق بروفايل
-            #endregion
+
+
+            /// builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            /// builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+            /// builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+			// AddIdentity => adds the default identity system configuration, that maens:
+			// 1- this method go to register the three main services for identity with the dependencies that have
+			// 2- add congigurations specific the security
+            // 2- add the default identity system configuration
+			// this means, i don't need to call the three services.
+			// if i want to know the configurations that this method do, i will using the second overload:
+			// take action with type IdentityOption, because i have set of options if i need to make configure for this options
+			/*
+             * builder.Services.AddIdentity<ApplicationUser, IdentityRole>((options) =>{
+             * options.password.Requirelength = 5; ==> the default is 6
+             * options.password.RequireNonAlphanumeric = true; ==> the default is 
+             * options.password.RequireUppercase = true; ==> the default is 
+             * optinos.password.RequireDigit = true; ==> the default is 
+             * options.password.RequireLowercase = true; ==> the default is 
+             * options.password.RequiredUniqueChars = 3; ==> the default is 1 // the number of unique characters in the password 
+             * 
+             * options.user.RequireUniqueEmail = true; ==> the default is true
+             * options.user.AllowedUserNameCharacters = "abc"; ==> the default is "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"
+             
+			 * options.lockout.AllowedForNewUsers = true; ==> the default is true
+			 * 
+			 * options.lockout.maxFailedAccessAttempts = 5; ==> the default is 5
+			 * options.lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); ==> the default is 5 minutes
+             // these two lockout options: if user try to login 5 times and he failed, he will be locked account for 5 minutes 
+			 * });
+             */
+
+
+			#endregion
 
 
 
 
 
-            #endregion
+			#endregion
 
-            var app = builder.Build();
+			var app = builder.Build();
 
 
             #region Configure Kestrel Middelwears
