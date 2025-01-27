@@ -165,5 +165,14 @@ namespace LinkDev.IKEA.PresentationLayer.Controllers
 			return View(model);
         }
         #endregion
+
+        #region Sign Out
+        [HttpGet]
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignIn));
+        }
+        #endregion
     }
-}
+} 

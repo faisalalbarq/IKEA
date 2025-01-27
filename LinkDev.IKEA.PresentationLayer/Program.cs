@@ -89,6 +89,9 @@ namespace LinkDev.IKEA.PresentationLayer
             // فهو رح ينفذ الكونستركتور الي بكلاس المابنق بروفايل
 
 
+
+
+
             /// builder.Services.AddScoped<UserManager<ApplicationUser>>();
             /// builder.Services.AddScoped<SignInManager<ApplicationUser>>();
             /// builder.Services.AddScoped<RoleManager<IdentityRole>>();
@@ -97,7 +100,7 @@ namespace LinkDev.IKEA.PresentationLayer
 			// AddIdentity => adds the default identity system configuration, that maens:
 			// 1- this method go to register the three main services for identity with the dependencies that have
 			// 2- add congigurations specific the security
-            // 2- add the default identity system configuration
+			// 2- add the default identity system configuration
 			// this means, i don't need to call the three services.
 			// if i want to know the configurations that this method do, i will using the second overload:
 			// take action with type IdentityOption, because i have set of options if i need to make configure for this options
@@ -121,8 +124,12 @@ namespace LinkDev.IKEA.PresentationLayer
 			 * });
              */
 
-
-			#endregion
+			builder.Services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = "/Account/SignIn";
+                // options.LogoutPath = "/Account/SignIn";
+			});
+			#endregion 
 
 
 
@@ -146,6 +153,9 @@ namespace LinkDev.IKEA.PresentationLayer
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             /*app.UseAuthorization();*/
 
